@@ -13,12 +13,12 @@ type Config struct {
 	DatabaseUrl string
 }
 
-func initEnv() *Config {
+func initEnv() Config {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal(err)
 	}
-	return &Config{
+	return Config{
 		Port:        getEnv("PORT", "8080"),
 		DatabaseUrl: getEnv("DATABASE_URL", ""),
 	}
