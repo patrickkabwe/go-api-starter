@@ -5,19 +5,24 @@ import (
 	"gorm.io/gorm"
 )
 
-type Store struct {
+type store struct {
 	db *gorm.DB
 }
 
-func NewStore(db *gorm.DB) Store {
-	return Store{db: db}
+type Store interface {
+	CreateUser(user *types.User) error
+	GetUser(id string) (*types.User, error)
 }
 
-func (s *Store) CreateUser(user *types.User) error {
+func NewStore(db *gorm.DB) Store {
+	return &store{db: db}
+}
+
+func (s *store) CreateUser(user *types.User) error {
 	return s.db.Create(user).Error
 }
 
-func (s *Store) GetUser(id uint) (*types.User, error) {
+func (s *store) GetUser(id string) (*types.User, error) {
 	user := &types.User{}
 	err := s.db.First(user, id).Error
 	if err != nil {
