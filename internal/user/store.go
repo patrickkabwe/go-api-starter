@@ -19,10 +19,12 @@ func NewStore(db *gorm.DB) Store {
 }
 
 func (s *store) CreateUser(user *types.User) error {
+	// TODO: add validation
 	return s.db.Create(user).Error
 }
 
 func (s *store) GetUser(id string) (*types.User, error) {
+	// TODO: add validation
 	user := &types.User{}
 	err := s.db.First(user, id).Error
 	if err != nil {
